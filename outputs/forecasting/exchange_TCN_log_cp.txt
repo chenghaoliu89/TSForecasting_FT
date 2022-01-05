@@ -1,0 +1,10 @@
+Namespace(agcrn_embed_dim=10, agcrn_hidden_size=64, agcrn_n_layers=1, bad_limit=25, batch_size=64, data_dir='data/forecasting', dataset='exchange', device='cpu', dsanet_d_inner=2048, dsanet_d_k=64, dsanet_d_model=512, dsanet_d_v=64, dsanet_dropout=0.1, dsanet_local=3, dsanet_n_head=8, dsanet_n_kernels=32, dsanet_n_layers=1, dsanet_w_kernel=1, fine_tuning=False, horizon=1, lmbd=0.0, local_norm=False, lr=0.003, lstm_hidden_size=64, lstm_n_layers=2, model_decay_rate=1, model_loadpath='outputs/forecasting/exchange_TCN_bstmodel.pth', model_type='TCN', n_epochs=5, n_series=None, norm_type='standard', output_dir='outputs/forecasting', series_len=60, task_type='forecasting', tcn_dropout=0, tcn_hidden_size=64, tcn_n_layers=9, test_ratio=0.2, tpa_ar_len=24, tpa_hidden_size=64, tpa_n_layers=1, trans_hidden_size=256, trans_kernel_size=6, trans_n_head=8, trans_n_layers=3, valid_ratio=0.2)
+total num of parameters: 143688
+Length of dataset: 4491
+Length of dataset: 1457
+Length of dataset: 1457
+epoch = 1 , trn loss = 0.054090 , trn err = 0.232424 , val loss = 0.050363 , val err = 0.221279 , tst loss = 0.052452 , tst err = 0.238967
+epoch = 2 , trn loss = 0.003270 , trn err = 0.057147 , val loss = 0.034305 , val err = 0.182627 , tst loss = 0.035552 , tst err = 0.196737
+epoch = 3 , trn loss = 0.001692 , trn err = 0.041103 , val loss = 0.024017 , val err = 0.152808 , tst loss = 0.027579 , tst err = 0.173278
+epoch = 4 , trn loss = 0.001224 , trn err = 0.034968 , val loss = 0.019338 , val err = 0.137115 , tst loss = 0.022218 , tst err = 0.155527
+epoch = 5 , trn loss = 0.001011 , trn err = 0.031776 , val loss = 0.019634 , val err = 0.138163 , tst loss = 0.022054 , tst err = 0.154953

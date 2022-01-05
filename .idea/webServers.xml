@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="9dbd429f-7d3a-4519-bf4c-e5de5a5973de" name="GCP">
+        <fileTransfer rootFolder="/export/home/TSForecasting_FT" accessType="SFTP" host="localhost" port="4321" sshConfigId="6453a897-c5f8-4329-bef9-8f9b1d4f5cc3" sshConfig="root@localhost:4321 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
