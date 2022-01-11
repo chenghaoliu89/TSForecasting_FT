@@ -5,10 +5,17 @@ model="TCN"
 dataset="air-quality"
 output_dir="outputs"
 
+# training
 python3 main.py --output_dir "outputs"  --n_epochs 750  --bad_limit 25 --lr 3e-3  --batch_size 64  --series_len 65  --norm_type standard  forecasting  --model_type "TCN" --dataset "air-quality"
 python3 main.py --output_dir "outputs"  --n_epochs 750  --bad_limit 25 --lr 3e-3  --batch_size 64  --series_len 60  --norm_type standard  forecasting  --model_type "TCN" --dataset "air-quality"
 
-python3 main.py --output_dir "outputs"  --n_epochs 750  --bad_limit 25 --lr 3e-3  --batch_size 64  --series_len 60  --norm_type standard  --fine_tuning --ft_num 5 --ft_steps 5 forecasting  --model_type "TCN" --dataset "air-quality"
+# search the fine tune learning rate
+python3 main.py --output_dir "outputs"  --n_epochs 750  --bad_limit 25 --lr 3e-3  --batch_size 64  --series_len 60  --norm_type standard  --fine_tuning --ft_num 5 --ft_steps 500 --ft_lr 0.1 forecasting  --model_type "TCN" --dataset "air-quality"
+python3 main.py --output_dir "outputs"  --n_epochs 750  --bad_limit 25 --lr 3e-3  --batch_size 64  --series_len 60  --norm_type standard  --fine_tuning --ft_num 5 --ft_steps 500 --ft_lr 0.05 forecasting  --model_type "TCN" --dataset "air-quality"
+python3 main.py --output_dir "outputs"  --n_epochs 750  --bad_limit 25 --lr 3e-3  --batch_size 64  --series_len 60  --norm_type standard  --fine_tuning --ft_num 5 --ft_steps 500 --ft_lr 0.01 forecasting  --model_type "TCN" --dataset "air-quality"
+python3 main.py --output_dir "outputs"  --n_epochs 750  --bad_limit 25 --lr 3e-3  --batch_size 64  --series_len 60  --norm_type standard  --fine_tuning --ft_num 5 --ft_steps 500 --ft_lr 0.005 forecasting  --model_type "TCN" --dataset "air-quality"
+python3 main.py --output_dir "outputs"  --n_epochs 750  --bad_limit 25 --lr 3e-3  --batch_size 64  --series_len 60  --norm_type standard  --fine_tuning --ft_num 5 --ft_steps 500 --ft_lr 0.001 forecasting  --model_type "TCN" --dataset "air-quality"
+python3 main.py --output_dir "outputs"  --n_epochs 750  --bad_limit 25 --lr 3e-3  --batch_size 64  --series_len 60  --norm_type standard  --fine_tuning --ft_num 5 --ft_steps 500 --ft_lr 0.00005 forecasting  --model_type "TCN" --dataset "air-quality"
 
 
 

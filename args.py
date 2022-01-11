@@ -43,8 +43,6 @@ def all_args():
     args = parser.parse_args()
     args.data_dir = os.path.join(args.data_dir, args.task_type)
     args.output_dir = os.path.join(args.output_dir, args.task_type)
-    if args.model_loadpath is None:
-        args.model_loadpath = os.path.join(args.output_dir, args.dataset + '_' + args.model_type + '_' + 'bstmodel.pth')
-
+    
     return args
 

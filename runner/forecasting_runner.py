@@ -76,7 +76,7 @@ class forecastingRunner(Runner):
                         self.bst_val_err = val_results['err']
                         bad_limit = 0
                         self.bst_model = copy.deepcopy(self.model)
-                        torch.save(self.bst_model.state_dict(), os.path.join(args.output_dir, args.dataset + '_' + args.model_type + '_' + 'series_len' + str(args.series_len) + '_' + 'bstmodel.pth'))
+                        torch.save(self.bst_model.state_dict(), args.model_loadpath)
                     else:
                         bad_limit += 1
                     if args.bad_limit > 0 and bad_limit >= args.bad_limit:

@@ -66,9 +66,16 @@ if __name__ == '__main__':
     # FORMAT = '%(asctime)s %(levelname)s: %(message)s'
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
-    logfile_path = args.dataset + '_' + args.model_type + '_' + 'series_len' + str(args.series_len) + '_'
+
+    # remove _ in args
+    logfile_path = args.dataset + '_' + args.model_type + '_' + 'serieslen' + str(args.series_len) + '_'
+
+    if not bool(args.model_loadpath):
+        args.model_loadpath = os.path.join(args.output_dir, logfile_path + 'bstmodel.pth')
+        #logger.info(f"model load path: {args.model_loadpath}")
+
     if args.fine_tuning:
-        logfile_path += 'ft-log.txt'
+        logfile_path += 'ftnum' + str(args.ft_num) + '_' +'ftlr' + str(args.ft_lr) +  '_ft-log.txt'
     elif args.evaluate:
         logfile_path += 'eval-log.txt'
     else:
