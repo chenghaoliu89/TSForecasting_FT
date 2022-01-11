@@ -1,6 +1,5 @@
 import argparse
 
-
 def forecasting_args(subparsers):
     p = subparsers.add_parser('forecasting')
 

@@ -6,9 +6,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-from args import args
-
-
 class AVWGCN(nn.Module):
     def __init__(self, dim_in, dim_out, cheb_k, embed_dim):
         super(AVWGCN, self).__init__()
@@ -96,7 +93,7 @@ class AVWDCRNN(nn.Module):
         return torch.stack(init_states, dim=0)      #(num_layers, B, N, hidden_dim)
 
 class AGCRN(nn.Module):
-    def __init__(self):
+    def __init__(self, args):
         super(AGCRN, self).__init__()
         self.num_nodes = args.n_series
         self.input_dim = 1

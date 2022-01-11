@@ -1,11 +1,8 @@
-from args import args
-
-
 import torch.nn as nn
 
 
 class LSTM(nn.Module):
-    def __init__(self):
+    def __init__(self, args):
         super(LSTM, self).__init__()
         self.hidden_size = args.lstm_hidden_size
         self.lstm = nn.LSTM(input_size=args.n_series, hidden_size=self.hidden_size,

@@ -3,7 +3,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from args import args
 
 class PositionalEncoding(nn.Module):
 
@@ -27,7 +26,7 @@ class PositionalEncoding(nn.Module):
 
 class Trans(nn.Module):
 
-    def __init__(self):
+    def __init__(self, args):
         super(Trans, self).__init__()
 
         self.conv = nn.Conv1d(args.n_series, args.trans_hidden_size, kernel_size=args.trans_kernel_size)

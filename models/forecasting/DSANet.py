@@ -11,9 +11,6 @@ from torch.utils.data import DataLoader
 import numpy as np
 
 
-from args import args
-
-
 class ScaledDotProductAttention(nn.Module):
     ''' Scaled Dot-Product Attention '''
 
@@ -290,7 +287,7 @@ class AR(nn.Module):
 
 class DSANet(nn.Module):
 
-    def __init__(self):
+    def __init__(self, args):
         super(DSANet, self).__init__()
 
         # parameters from dataset

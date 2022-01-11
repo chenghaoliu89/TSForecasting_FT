@@ -5,8 +5,6 @@ import torch
 import torch.nn as nn
 from torch.nn.utils import weight_norm
 
-from args import args
-
 
 class Chomp1d(nn.Module):
     def __init__(self, chomp_size):
@@ -51,7 +49,7 @@ class TemporalBlock(nn.Module):
 
 
 class TCN(nn.Module):
-    def __init__(self):
+    def __init__(self, args):
         super(TCN, self).__init__()
         num_inputs = args.n_series
         num_channels = [args.tcn_hidden_size] * args.tcn_n_layers

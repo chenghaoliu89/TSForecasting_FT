@@ -1,26 +1,14 @@
 #!/bin/bash
 
 ep=750
-model="TPA"
-dataset="solar"
+model="TCN"
+dataset="air-quality"
 output_dir="outputs"
 
-python3 main.py \
-  --output_dir $output_dir \
-  --n_epochs $ep \
-  --bad_limit 25 \
-  --lr 3e-3 \
-  --rho_lr 1e-2 \
-  --one_rho --inp_adj --out_adj \
-  --batch_size 64 \
-  --series_len 60 \
-  --norm_type standard \
-  forecasting \
-  --model_type $model \
-  --dataset $dataset
+python3 main.py --output_dir "outputs"  --n_epochs 750  --bad_limit 25 --lr 3e-3  --batch_size 64  --series_len 65  --norm_type standard  forecasting  --model_type "TCN" --dataset "air-quality"
+python3 main.py --output_dir "outputs"  --n_epochs 750  --bad_limit 25 --lr 3e-3  --batch_size 64  --series_len 60  --norm_type standard  forecasting  --model_type "TCN" --dataset "air-quality"
 
-python3 main.py --output_dir "outputs"  --n_epochs 750  --bad_limit 25 --lr 3e-3  --rho_lr 1e-2  --one_rho --inp_adj --out_adj --batch_size 64  --series_len 60  --norm_type standard  forecasting  --model_type "TCN"  --dataset "exchange"
-python3 main.py --output_dir "outputs"  --n_epochs 750  --bad_limit 25 --lr 3e-3  --rho_lr 1e-2  --one_rho --inp_adj --out_adj --batch_size 64  --series_len 60  --norm_type standard  forecasting  --model_type "TCN"  --dataset "exchange"
+python3 main.py --output_dir "outputs"  --n_epochs 750  --bad_limit 25 --lr 3e-3  --batch_size 64  --series_len 60  --norm_type standard  --fine_tuning --ft_num 5 --ft_steps 5 forecasting  --model_type "TCN" --dataset "air-quality"
 
 
 

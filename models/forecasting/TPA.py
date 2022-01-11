@@ -3,11 +3,9 @@ from torch import nn
 import torch.nn.functional as F
 import numpy as np
 
-from args import args
-
 
 class TPA_Attention(nn.Module):
-    def __init__(self):
+    def __init__(self, args):
         super(TPA_Attention, self).__init__()
         self.n_filters = 32
         self.filter_size = 1

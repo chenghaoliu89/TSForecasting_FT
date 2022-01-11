@@ -8,17 +8,13 @@ import torch
 from torch.utils.data import Dataset
 
 
-from args import args
-
-
 def create_dir(dir_path):
     if not os.path.isdir(dir_path):
         os.makedirs(dir_path)
 
 
 class ForecastingData:
-    def __init__(self):
-        raw_X = self.load_data()
+    def __init__(self, raw_X, args):
         self.raw_X = raw_X
         assert raw_X.ndim == 2
         self.valid_idx = int((1-args.valid_ratio-args.test_ratio)*raw_X.shape[0])
@@ -40,13 +36,7 @@ class ForecastingData:
             self.mn = train_set.mean(axis=axis, keepdims=True)
             self.sc = train_set.std(axis=axis, keepdims=True)
 
-    def load_data(self):
-        data_path = os.path.join(args.data_dir, f'{args.dataset}.npy')
-        raw_X = np.load(data_path, allow_pickle=True)
-        args.n_series = raw_X[0].shape[-1]
-        return raw_X
-
-    def get_dataset(self, i):
+    def get_dataset(self, i, series_len, horizon, ft_num=0):
         if i == 0:
             start = 0
             end = self.valid_idx
@@ -56,21 +46,26 @@ class ForecastingData:
         else:
             start = self.test_idx
             end = self.raw_X.shape[0]
-        return ForecastingDataset(self.raw_X, start, end, self.sc, self.mn)
+        return ForecastingDataset(series_len, horizon, self.raw_X, start, end, self.sc, self.mn, ft_num)
 
 
 class ForecastingDataset(Dataset):
-    def __init__(self, raw_X, start, end, sc, mn):
+    def __init__(self, series_len, horizon, raw_X, start, end, sc, mn, ft_num=0):
         self.sc = sc
         self.mn = mn
         self.start = start
         self.end = end
-        assert self.start < self.end
+        self.series_len = series_len
+        self.horizon = horizon
+        self.ft_num = ft_num
+        if self.ft_num > 0:
+            assert self.start > 0, "fine tuning mode only work on validate and test set"
+        assert self.start < self.end, "start point should before end point"
 
         # start = 0 indicates training set and consider the shift of series_lens
         if self.start == 0:
-            assert args.series_len < self.end
-            self.rse = np.sum((raw_X[args.series_len:self.end] - np.mean(raw_X[args.series_len:self.end]))**2)
+            assert self.series_len < self.end
+            self.rse = np.sum((raw_X[self.series_len:self.end] - np.mean(raw_X[self.series_len:self.end]))**2)
         else:
             self.rse = np.sum((raw_X[self.start:self.end] - np.mean(raw_X[self.start:self.end])) ** 2)
 
@@ -84,15 +79,24 @@ class ForecastingDataset(Dataset):
 
     def __len__(self):
         if self.start == 0:
-            return self.end + 1 - args.series_len - args.horizon
+            return self.end + 1 - self.series_len - self.horizon
         else:
-            return np.ceil((self.end - self.start) / (args.horizon)).astype(int)
+            return np.ceil((self.end - self.start) / (self.horizon)).astype(int)
 
     def __getitem__(self, idx):
         if self.start == 0:
-            return (self.X[idx:idx+args.series_len], self.X[idx+args.series_len:idx+args.series_len+args.horizon])
+            return (self.X[idx:idx+self.series_len], self.X[idx+self.series_len:idx+self.series_len+self.horizon])
         else:
-            return (self.X[(self.start + idx * args.horizon - args.series_len):(self.start + idx * args.horizon)],
-                    self.X[self.start + idx*args.horizon : min(self.end, self.start + (idx+1)*args.horizon)])
+            if self.ft_num == 0:
+                return (self.X[(self.start + idx * self.horizon - self.series_len):(self.start + idx * self.horizon)],
+                        self.X[(self.start + idx*self.horizon) : min(self.end, self.start + (idx+1)*self.horizon)])
+            else:
+                pt_data_x = np.array([self.X[(self.start + idx * self.horizon - self.series_len - ft_idx):(self.start + idx * self.horizon - ft_idx)] for ft_idx in range(1, self.ft_num+1)])
+                pt_data_y = np.array([self.X[self.start + idx*self.horizon - ft_idx : (min(self.end, self.start + (idx+1)*self.horizon) - ft_idx) ] for ft_idx in range(1, self.ft_num+1)])
+
+                x = self.X[(self.start + idx * self.horizon - self.series_len):(self.start + idx * self.horizon)]
+                y = self.X[(self.start + idx*self.horizon) : min(self.end, self.start + (idx+1)*self.horizon)]
+                return(pt_data_x, pt_data_y, x, y)
+
 
 
